@@ -59,6 +59,7 @@ int Flag2 =0;
 int Flag3 =0;
 //Initialisation of Flag4 used for Calibration Mode
 int Flag4 =0;
+int message = 0;
 
 void setup()
 {
@@ -109,7 +110,7 @@ pinMode(6,INPUT);
 pinMode(7,INPUT);
 //DO for driving dosing pump
 pinMode(8,OUTPUT);
-Serial.begin(115200);
+Serial.begin(9600);
 }
 
 void loop() {  
@@ -332,11 +333,22 @@ else
 lcd.setCursor (0,0);
   lcd.print ("SP PH: ");  
   lcd.print(SetPoint,2);
-    lcd.print ("     ");
+  lcd.print ("     ");
   lcd.setCursor(0,1);
   lcd.print ("PV PH: ");
   lcd.print(PHValue,2); 
   lcd.print ("       ");
+// Sending Data to Raspberry Pi
+if (Serial.available())  {
+    message = Serial.read()-'0';  // on soustrait le caractère 0, qui vaut 48 en ASCII
+
+    if (message == 5){
+      Serial.println(SetPoint,2);
+      Serial.println(PHValue,2);
+      
+     
+    }
+  }
  
 // Driving of dosing pump
 
