@@ -339,6 +339,9 @@ lcd.setCursor (0,0);
   lcd.print ("PV PH: ");
   lcd.print(PHValue,2); 
   lcd.print ("       ");
+  
+
+      
 // Sending Data to Raspberry Pi
 if (Serial.available())  {
     message = Serial.read()-'0';  // on soustrait le caractère 0, qui vaut 48 en ASCII
@@ -346,6 +349,11 @@ if (Serial.available())  {
     if (message == 5){
       Serial.println(SetPoint,2);
       Serial.println(PHValue,2);
+      
+     
+    }
+     if (message == 1){
+      Serial.println("PH");
       
      
     }
