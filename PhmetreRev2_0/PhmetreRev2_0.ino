@@ -1,6 +1,7 @@
 /* Program for controlling Pool PH 
 Version 1.3 18/07/2015: Added Writing SP & Caibration Constants on EEPROM*
-Version 2.0 13/11/2016: Master for implementing Raspberry Pi communication*/
+Version 2.0 13/11/2016: Master for implementing Raspberry Pi communication*
+Version 2.1 20/11/2016: Draft for implementing Raspberry Pi communication*/
 
 //LCD Display Initialisation
 #include <LiquidCrystal.h>
