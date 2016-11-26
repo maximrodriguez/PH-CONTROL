@@ -62,6 +62,11 @@ int Flag3 =0;
 int Flag4 =0;
 int message = 0;
 
+//Init for Power-down sensing
+int Reset_Flag =0;
+int PW_Down_Flag =0;
+int PW_Up_Flag=0;
+
 void setup()
 {
 Wire.begin();// wake up the I2C
@@ -112,12 +117,28 @@ pinMode(7,INPUT);
 //DO for driving dosing pump
 pinMode(8,OUTPUT);
 Serial.begin(9600);
+
 }
 
 void loop() {  
 //Reading of PH Value
 AnalogValue=Analog();
 PHValue=AnalogValue*a+b;
+
+if (PHValue > 6 && PW_Down_Flag ==0)
+{
+PW_Up_Flag=1;
+}
+
+if (PHValue <1.5 && PW_Up_Flag ==1)
+{
+PW_Down_Flag=1;
+}
+
+if (PHValue > 6 && PW_Down_Flag ==1)
+{
+Reset_Flag =1;
+}
 
 DI_State1=readButton(1);
 DI_State2=readButton(2);
@@ -336,12 +357,16 @@ lcd.setCursor (0,0);
   lcd.print(SetPoint,2);
   lcd.print ("     ");
   lcd.setCursor(0,1);
+  if (PW_Down_Flag ==0)
+  { 
   lcd.print ("PV PH: ");
   lcd.print(PHValue,2); 
   lcd.print ("       ");
-  
-
-      
+  }
+else
+  { 
+   lcd.print ("    NO POWER    ");
+  } 
 // Sending Data to Raspberry Pi
 if (Serial.available())  {
     message = Serial.read()-'0';  // on soustrait le caractère 0, qui vaut 48 en ASCII
