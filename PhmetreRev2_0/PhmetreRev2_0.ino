@@ -119,6 +119,8 @@ pinMode(8,OUTPUT);
 Serial.begin(9600);
 
 }
+void(* resetFunc) (void) = 0; //declare reset function @ address 0
+
 
 void loop() {  
 //Reading of PH Value
@@ -138,6 +140,8 @@ PW_Down_Flag=1;
 if (PHValue > 6 && PW_Down_Flag ==1)
 {
 Reset_Flag =1;
+resetFunc();  //call reset
+
 }
 
 DI_State1=readButton(1);
@@ -365,7 +369,7 @@ lcd.setCursor (0,0);
   }
 else
   { 
-   lcd.print ("    NO POWER    ");
+   lcd.print ("NO POWER          ");
   } 
 // Sending Data to Raspberry Pi
 if (Serial.available())  {
