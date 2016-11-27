@@ -66,6 +66,7 @@ int message = 0;
 int Reset_Flag =0;
 int PW_Down_Flag =0;
 int PW_Up_Flag=0;
+int Pump_Drive_Flag=0;
 
 void setup()
 {
@@ -378,7 +379,8 @@ if (Serial.available())  {
     if (message == 5){
       Serial.println(SetPoint,2);
       Serial.println(PHValue,2);
-      
+      Serial.println(Pump_Drive_Flag);
+      Serial.println(PW_Down_Flag);
      
     }
      if (message == 1){
@@ -415,13 +417,15 @@ if (Flag3==1 and DelayWidth>=DelaySP)
   
 // The pump is driven 
   
-if (Flag2==1)
+if (Flag2==1 && PW_Down_Flag ==0)
   {         
   digitalWrite(8,HIGH);
+  Pump_Drive_Flag=1;
   }
 else
  {         
   digitalWrite(8,LOW);
+  Pump_Drive_Flag=0;
   }
 
 // Wait before looping program
