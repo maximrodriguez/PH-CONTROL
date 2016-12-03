@@ -63,9 +63,7 @@ int Flag4 =0;
 int message = 0;
 
 //Init for Power-down sensing
-int Reset_Flag =0;
 int PW_Down_Flag =0;
-int PW_Up_Flag=0;
 int Pump_Drive_Flag=0;
 
 void setup()
@@ -128,19 +126,13 @@ void loop() {
 AnalogValue=Analog();
 PHValue=AnalogValue*a+b;
 
-if (PHValue > 6 && PW_Down_Flag ==0)
-{
-PW_Up_Flag=1;
-}
-
-if (PHValue <1.5 && PW_Up_Flag ==1)
+if (PHValue <1.5 && millis()>5000)
 {
 PW_Down_Flag=1;
 }
 
 if (PHValue > 6 && PW_Down_Flag ==1)
 {
-Reset_Flag =1;
 resetFunc();  //call reset
 
 }
